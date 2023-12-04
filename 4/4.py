@@ -4,6 +4,7 @@ with open('4/input.txt', 'r') as f:
 def calculate_points(cards):
     total_points = 0
 
+    #part1
     for card in cards:
         winning_numbers, your_numbers = card.split(' | ')
         winning_numbers = winning_numbers.split(':')[1]
@@ -12,10 +13,11 @@ def calculate_points(cards):
 
         matches = winning_numbers.intersection(your_numbers)
         if matches:
-            total_points += 2 ** (len(matches) - 1)  # Double points for each match after the first
+            total_points += 2 ** (len(matches) - 1)
         else:
             pass
     
+    #part2
     n = len(cards)
     card_instances = [1] * n
 
