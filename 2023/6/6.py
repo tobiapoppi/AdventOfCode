@@ -1,43 +1,33 @@
-with open('2023/6/input.txt', 'r') as f:
-    lines = f.read().split('\n')
 import math
 import tqdm
+import os, sys, inspect
+currdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+maindir = os.path.dirname(os.path.dirname(currdir))
+sys.path.append(maindir)
+from utils import advent
 
-inp = """
-Time:        42     68     69     85
-Distance:   284   1005   1122   1341"""
+advent.setup(2023, 6)
 
-times = [42, 68, 69, 85]
-distances = [284, 1005, 1122, 1341]
+DEBUG = """Time:      7  15   30
+Distance:  9  40  200"""
 
-#times = [7,  15,   30]
-#distances = [9, 40,  200]
+def part1(data: list[str]) -> int:
+    times = list(map(int, data[0].split(':')[1].split()))
+    distances = list(map(int,data[1].split(':')[1].split()))
+    ways_to_win = [sum([(t-i)*i > d for i in range(t+1)]) for t, d in zip(times, distances)]
+    return math.prod(ways_to_win)
 
-times = 71530
-distances = 940200
+def part2(data: list[str]) -> int:
+    ways = 0
+    times = int(data[0].split(':')[1].replace(' ', ''))
+    distances = int(data[1].split(':')[1].replace(' ', ''))
+    ways = sum([(times-i) * i > distances for i in tqdm.tqdm(range(times+1))])
+    return ways
 
-
-times = 42686985
-distances = 284100511221341
-
-
-speed = 0
-diff_speed = 1
-
-wayys_to_win = []
-
-#for k, t in enumerate(times):
-#    ways = 0
-#    for i in range(t+1):
-#        if ((t-i) * i) > distances[k]:
-#            ways += 1
-#    wayys_to_win.append(ways)
-ways = 0
-for i in tqdm.tqdm(range(times+1)):
-    if ((times-i) * i) > distances:
-        ways += 1
-
-print(ways)
-
-print(wayys_to_win)
-print(math.prod(wayys_to_win))
+if __name__ == '__main__':
+    with advent.get_input() as f:
+        data = f.read()
+    print(part1(DEBUG.splitlines()))
+    advent.print_answer(1, part1(data.splitlines()))
+    print(part2(DEBUG.splitlines()))
+    advent.print_answer(2, part2(data.splitlines()))
