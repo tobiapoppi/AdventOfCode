@@ -1,0 +1,6 @@
+**/__pycache__
+secret_session_cookie
+launch.json
+**/.vscode
+
+itertools_tests.py
